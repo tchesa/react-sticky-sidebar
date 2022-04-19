@@ -1,9 +1,16 @@
-/* add css module styles here (optional) */
+._styles-module__stickySidebar__wEBSf {
+  display: flex;
+  align-items: flex-start;
+}
 
-._3ybTi {
-  margin: 2em;
-  padding: 0.5em;
-  border: 2px solid #000;
-  font-size: 2em;
-  text-align: center;
+._styles-module__sidebar__a1FEy {
+  will-change: min-height;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+._styles-module__sidebarInner__3c2CD {
+  transform: translate(0, 0); /* For browsers don't support translate3d. */
+  transform: translate3d(0, 0, 0);
+  will-change: position, transform;
 }

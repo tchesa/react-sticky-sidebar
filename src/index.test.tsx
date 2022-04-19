@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import StickySidebar from '.'
 
-describe('ExampleComponent', () => {
+describe('StickySidebar', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(StickySidebar).toBeTruthy()
   })
 })

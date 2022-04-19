@@ -1,9 +1,16 @@
-/* add css module styles here (optional) */
+.stickySidebar {
+  display: flex;
+  align-items: flex-start;
+}
 
-.test {
-  margin: 2em;
-  padding: 0.5em;
-  border: 2px solid #000;
-  font-size: 2em;
-  text-align: center;
+.sidebar {
+  will-change: min-height;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.sidebarInner {
+  transform: translate(0, 0); /* For browsers don't support translate3d. */
+  transform: translate3d(0, 0, 0);
+  will-change: position, transform;
 }
