@@ -17,13 +17,23 @@ npm install --save react-sticky-sidebar
 ```tsx
 import React, { Component } from 'react'
 
-import MyComponent from 'react-sticky-sidebar'
+import StickySidebar from 'react-sticky-sidebar'
 import 'react-sticky-sidebar/dist/index.css'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const Example = () => {
+  const renderSidebarContent = () => (<>{/* aside container content */}</>)
+
+  const renderContent = () => (<>{/* main container content */}</>)
+  
+  return (
+    <div className="my-page">
+      <StickySidebar
+        topSpacing={96}
+        sidebarContent={renderSidebarContent}
+        content={renderContent}
+      />
+    </>
+  )
 }
 ```
 
