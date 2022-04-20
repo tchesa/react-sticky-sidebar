@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styles from './styles.module.css'
-import { useEffect, useRef } from 'react'
 import StickySidebarImplementation from './sticky-sidebar'
 
 export type Props = {
@@ -22,9 +21,9 @@ const StickySidebar = ({
   sidebarInnerId = 'sidebar-inner',
   topSpacing = 0
 }: Props) => {
-  const sidebarImplementation = useRef<StickySidebarImplementation>()
+  const sidebarImplementation = React.useRef<StickySidebarImplementation>()
 
-  useEffect(() => {
+  React.useEffect(() => {
     sidebarImplementation.current = new StickySidebarImplementation(
       `#${sidebarId}`,
       {
