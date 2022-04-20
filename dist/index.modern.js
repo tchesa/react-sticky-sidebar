@@ -1,9 +1,28 @@
 import { useRef, useEffect, createElement } from 'react';
 
-var styles = {"stickySidebar":"_styles-module__stickySidebar__wEBSf","sidebar":"_styles-module__sidebar__a1FEy","sidebarInner":"_styles-module__sidebarInner__3c2CD"};
+var styles = {"stickySidebar":"_wEBSf","sidebar":"_a1FEy","sidebarInner":"_3c2CD"};
 
-const EVENT_KEY = '.stickySidebar';
-const DEFAULTS = {
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+
+var EVENT_KEY = '.stickySidebar';
+var DEFAULTS = {
   topSpacing: 0,
   bottomSpacing: 0,
   containerSelector: false,
@@ -13,8 +32,14 @@ const DEFAULTS = {
   minWidth: false
 };
 
-class StickySidebar {
-  constructor(sidebar, options = {}) {
+var StickySidebar = /*#__PURE__*/function () {
+  function StickySidebar(sidebar, options) {
+    var _this = this;
+
+    if (options === void 0) {
+      options = {};
+    }
+
     this.options = StickySidebar.extend(DEFAULTS, options);
     this.sidebar = typeof sidebar === 'string' ? document.querySelector(sidebar) : sidebar;
     if (typeof this.sidebar === 'undefined') throw new Error('There is no specific sidebar element.');
@@ -44,13 +69,17 @@ class StickySidebar {
       viewportTop: 0,
       lastViewportTop: 0
     };
-    ['handleEvent'].forEach(method => {
-      this[method] = this[method].bind(this);
+    ['handleEvent'].forEach(function (method) {
+      _this[method] = _this[method].bind(_this);
     });
     this.initialize();
   }
 
-  initialize() {
+  var _proto = StickySidebar.prototype;
+
+  _proto.initialize = function initialize() {
+    var _this2 = this;
+
     this._setSupportFeatures();
 
     if (this.options.innerWrapperSelector) {
@@ -59,21 +88,23 @@ class StickySidebar {
     }
 
     if (!this.sidebarInner) {
-      const wrapper = document.createElement('div');
+      var wrapper = document.createElement('div');
       wrapper.setAttribute('class', 'inner-wrapper-sticky');
       this.sidebar.appendChild(wrapper);
 
-      while (this.sidebar.firstChild != wrapper) wrapper.appendChild(this.sidebar.firstChild);
+      while (this.sidebar.firstChild != wrapper) {
+        wrapper.appendChild(this.sidebar.firstChild);
+      }
 
       this.sidebarInner = this.sidebar.querySelector('.inner-wrapper-sticky');
     }
 
     if (this.options.containerSelector) {
-      let containers = document.querySelectorAll(this.options.containerSelector);
+      var containers = document.querySelectorAll(this.options.containerSelector);
       containers = Array.prototype.slice.call(containers);
-      containers.forEach((container, item) => {
-        if (!container.contains(this.sidebar)) return;
-        this.container = container;
+      containers.forEach(function (container, item) {
+        if (!container.contains(_this2.sidebar)) return;
+        _this2.container = container;
       });
       if (!containers.length) throw new Error('The container does not contains on the sidebar.');
     }
@@ -87,9 +118,9 @@ class StickySidebar {
     this.stickyPosition();
     this.bindEvents();
     this._initialized = true;
-  }
+  };
 
-  bindEvents() {
+  _proto.bindEvents = function bindEvents() {
     window.addEventListener('resize', this, {
       passive: true,
       capture: false
@@ -99,13 +130,13 @@ class StickySidebar {
       capture: false
     });
     this.sidebar.addEventListener('update' + EVENT_KEY, this);
-  }
+  };
 
-  handleEvent(event) {
+  _proto.handleEvent = function handleEvent(event) {
     this.updateSticky(event);
-  }
+  };
 
-  calcDimensions() {
+  _proto.calcDimensions = function calcDimensions() {
     if (this._breakpoint) return;
     var dims = this.dimensions;
     dims.containerTop = StickySidebar.offsetRelative(this.container).top;
@@ -117,9 +148,9 @@ class StickySidebar {
     dims.maxTranslateY = dims.containerHeight - dims.sidebarHeight;
 
     this._calcDimensionsWithScroll();
-  }
+  };
 
-  _calcDimensionsWithScroll() {
+  _proto._calcDimensionsWithScroll = function _calcDimensionsWithScroll() {
     var dims = this.dimensions;
     dims.sidebarLeft = StickySidebar.offsetRelative(this.sidebar).left;
     dims.viewportTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -144,22 +175,22 @@ class StickySidebar {
 
     dims.lastTopSpacing = dims.topSpacing;
     dims.lastBottomSpacing = dims.bottomSpacing;
-  }
+  };
 
-  isSidebarFitsViewport() {
-    const dims = this.dimensions;
-    const offset = this.scrollDirection === 'down' ? dims.lastBottomSpacing : dims.lastTopSpacing;
+  _proto.isSidebarFitsViewport = function isSidebarFitsViewport() {
+    var dims = this.dimensions;
+    var offset = this.scrollDirection === 'down' ? dims.lastBottomSpacing : dims.lastTopSpacing;
     return this.dimensions.sidebarHeight + offset < this.dimensions.viewportHeight;
-  }
+  };
 
-  observeScrollDir() {
+  _proto.observeScrollDir = function observeScrollDir() {
     var dims = this.dimensions;
     if (dims.lastViewportTop === dims.viewportTop) return;
     var furthest = this.direction === 'down' ? Math.min : Math.max;
     if (dims.viewportTop === furthest(dims.viewportTop, dims.lastViewportTop)) this.direction = this.direction === 'down' ? 'up' : 'down';
-  }
+  };
 
-  getAffixType() {
+  _proto.getAffixType = function getAffixType() {
     this._calcDimensionsWithScroll();
 
     var dims = this.dimensions;
@@ -178,9 +209,9 @@ class StickySidebar {
     dims.translateY = Math.round(dims.translateY);
     dims.lastViewportTop = dims.viewportTop;
     return affixType;
-  }
+  };
 
-  _getAffixTypeScrollingDown() {
+  _proto._getAffixTypeScrollingDown = function _getAffixTypeScrollingDown() {
     var dims = this.dimensions;
     var sidebarBottom = dims.sidebarHeight + dims.containerTop;
     var colliderTop = dims.viewportTop + dims.topSpacing;
@@ -208,9 +239,9 @@ class StickySidebar {
     }
 
     return affixType;
-  }
+  };
 
-  _getAffixTypeScrollingUp() {
+  _proto._getAffixTypeScrollingUp = function _getAffixTypeScrollingUp() {
     var dims = this.dimensions;
     var sidebarBottom = dims.sidebarHeight + dims.containerTop;
     var colliderTop = dims.viewportTop + dims.topSpacing;
@@ -230,9 +261,9 @@ class StickySidebar {
     }
 
     return affixType;
-  }
+  };
 
-  _getStyle(affixType) {
+  _proto._getStyle = function _getStyle(affixType) {
     if (typeof affixType === 'undefined') return;
     var style = {
       inner: {},
@@ -262,7 +293,7 @@ class StickySidebar {
 
       case 'CONTAINER-BOTTOM':
       case 'VIEWPORT-UNBOTTOM':
-        const translate = this._getTranslate(0, dims.translateY + 'px');
+        var translate = this._getTranslate(0, dims.translateY + 'px');
 
         if (translate) style.inner = {
           transform: translate
@@ -299,9 +330,9 @@ class StickySidebar {
       transform: ''
     }, style.inner);
     return style;
-  }
+  };
 
-  stickyPosition(force) {
+  _proto.stickyPosition = function stickyPosition(force) {
     if (this._breakpoint) return;
     force = this._reStyle || force || false;
     var affixType = this.getAffixType();
@@ -309,30 +340,31 @@ class StickySidebar {
     var style = this._getStyle(affixType);
 
     if ((this.affixedType != affixType || force) && affixType) {
-      const affixEvent = 'affix.' + affixType.toLowerCase().replace('viewport-', '') + EVENT_KEY;
+      var affixEvent = 'affix.' + affixType.toLowerCase().replace('viewport-', '') + EVENT_KEY;
       StickySidebar.eventTrigger(this.sidebar, affixEvent);
       if (affixType === 'STATIC') StickySidebar.removeClass(this.sidebar, this.options.stickyClass);else StickySidebar.addClass(this.sidebar, this.options.stickyClass);
 
-      for (const key in style.outer) {
-        const unit = typeof style.outer[key] === 'number' ? 'px' : '';
+      for (var key in style.outer) {
+        var unit = typeof style.outer[key] === 'number' ? 'px' : '';
         this.sidebar.style[key] = style.outer[key] + unit;
       }
 
-      for (const key in style.inner) {
-        const unit = typeof style.inner[key] === 'number' ? 'px' : '';
-        this.sidebarInner.style[key] = style.inner[key] + unit;
+      for (var _key in style.inner) {
+        var _unit = typeof style.inner[_key] === 'number' ? 'px' : '';
+
+        this.sidebarInner.style[_key] = style.inner[_key] + _unit;
       }
 
-      const affixedEvent = 'affixed.' + affixType.toLowerCase().replace('viewport-', '') + EVENT_KEY;
+      var affixedEvent = 'affixed.' + affixType.toLowerCase().replace('viewport-', '') + EVENT_KEY;
       StickySidebar.eventTrigger(this.sidebar, affixedEvent);
     } else {
       if (this._initialized) this.sidebarInner.style.left = style.inner.left;
     }
 
     this.affixedType = affixType;
-  }
+  };
 
-  _widthBreakpoint() {
+  _proto._widthBreakpoint = function _widthBreakpoint() {
     if (window.innerWidth <= this.options.minWidth) {
       this._breakpoint = true;
       this.affixedType = 'STATIC';
@@ -342,47 +374,69 @@ class StickySidebar {
     } else {
       this._breakpoint = false;
     }
-  }
+  };
 
-  updateSticky(event = {}) {
+  _proto.updateSticky = function updateSticky(event) {
+    var _this3 = this;
+
+    if (event === void 0) {
+      event = {};
+    }
+
     if (this._running) return;
     this._running = true;
 
-    (eventType => {
-      requestAnimationFrame(() => {
+    (function (eventType) {
+      requestAnimationFrame(function () {
         switch (eventType) {
           case 'scroll':
-            this._calcDimensionsWithScroll();
+            _this3._calcDimensionsWithScroll();
 
-            this.observeScrollDir();
-            this.stickyPosition();
+            _this3.observeScrollDir();
+
+            _this3.stickyPosition();
+
             break;
 
           case 'resize':
           default:
-            this._widthBreakpoint();
+            _this3._widthBreakpoint();
 
-            this.calcDimensions();
-            this.stickyPosition(true);
+            _this3.calcDimensions();
+
+            _this3.stickyPosition(true);
+
             break;
         }
 
-        this._running = false;
+        _this3._running = false;
       });
     })(event.type);
-  }
+  };
 
-  _setSupportFeatures() {
+  _proto._setSupportFeatures = function _setSupportFeatures() {
     var support = this.support;
     support.transform = StickySidebar.supportTransform();
     support.transform3d = StickySidebar.supportTransform(true);
-  }
+  };
 
-  _getTranslate(y = 0, x = 0, z = 0) {
+  _proto._getTranslate = function _getTranslate(y, x, z) {
+    if (y === void 0) {
+      y = 0;
+    }
+
+    if (x === void 0) {
+      x = 0;
+    }
+
+    if (z === void 0) {
+      z = 0;
+    }
+
     if (this.support.transform3d) return 'translate3d(' + y + ', ' + x + ', ' + z + ')';else if (this.support.translate) return 'translate(' + y + ', ' + x + ')';else return false;
-  }
+  };
 
-  destroy() {
+  _proto.destroy = function destroy() {
     window.removeEventListener('resize', this, {
       capture: false
     });
@@ -409,12 +463,16 @@ class StickySidebar {
       position: ''
     };
 
-    for (const key in styleReset.outer) this.sidebar.style[key] = styleReset.outer[key];
+    for (var key in styleReset.outer) {
+      this.sidebar.style[key] = styleReset.outer[key];
+    }
 
-    for (const key in styleReset.inner) this.sidebarInner.style[key] = styleReset.inner[key];
-  }
+    for (var _key2 in styleReset.inner) {
+      this.sidebarInner.style[_key2] = styleReset.inner[_key2];
+    }
+  };
 
-  static supportTransform(transform3d) {
+  StickySidebar.supportTransform = function supportTransform(transform3d) {
     var result = false;
     var property = transform3d ? 'perspective' : 'transform';
     var upper = property.charAt(0).toUpperCase() + property.slice(1);
@@ -428,9 +486,9 @@ class StickySidebar {
       }
     });
     return result;
-  }
+  };
 
-  static eventTrigger(element, eventName, data) {
+  StickySidebar.eventTrigger = function eventTrigger(element, eventName, data) {
     try {
       var event = new CustomEvent(eventName, {
         detail: data
@@ -441,84 +499,92 @@ class StickySidebar {
     }
 
     element.dispatchEvent(event);
-  }
+  };
 
-  static extend(defaults, options) {
+  StickySidebar.extend = function extend(defaults, options) {
     var results = {};
 
-    for (const key in defaults) {
+    for (var key in defaults) {
       if (typeof options[key] !== 'undefined') results[key] = options[key];else results[key] = defaults[key];
     }
 
     return results;
-  }
+  };
 
-  static offsetRelative(element) {
+  StickySidebar.offsetRelative = function offsetRelative(element) {
     var result = {
       left: 0,
       top: 0
     };
 
     do {
-      const offsetTop = element.offsetTop;
-      const offsetLeft = element.offsetLeft;
+      var offsetTop = element.offsetTop;
+      var offsetLeft = element.offsetLeft;
       if (!isNaN(offsetTop)) result.top += offsetTop;
       if (!isNaN(offsetLeft)) result.left += offsetLeft;
       element = element.tagName === 'BODY' ? element.parentElement : element.offsetParent;
     } while (element);
 
     return result;
-  }
+  };
 
-  static addClass(element, className) {
+  StickySidebar.addClass = function addClass(element, className) {
     if (!StickySidebar.hasClass(element, className)) {
       if (element.classList) element.classList.add(className);else element.className += ' ' + className;
     }
-  }
+  };
 
-  static removeClass(element, className) {
+  StickySidebar.removeClass = function removeClass(element, className) {
     if (StickySidebar.hasClass(element, className)) {
       if (element.classList) element.classList.remove(className);else element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     }
-  }
+  };
 
-  static hasClass(element, className) {
+  StickySidebar.hasClass = function hasClass(element, className) {
     if (element.classList) return element.classList.contains(className);else return new RegExp('(^| )' + className + '( |$)', 'gi').test(element.className);
-  }
+  };
 
-  static get defaults() {
-    return DEFAULTS;
-  }
+  _createClass(StickySidebar, null, [{
+    key: "defaults",
+    get: function get() {
+      return DEFAULTS;
+    }
+  }]);
 
-}
+  return StickySidebar;
+}();
 
-const StickySidebar$1 = ({
-  bottomSpacing: _bottomSpacing = 0,
-  content,
-  id: _id = 'container',
-  sidebarContent,
-  sidebarId: _sidebarId = 'sidebar',
-  sidebarInnerId: _sidebarInnerId = 'sidebar-inner',
-  topSpacing: _topSpacing = 0
-}) => {
-  const sidebarImplementation = useRef();
-  useEffect(() => {
-    sidebarImplementation.current = new StickySidebar(`#${_sidebarId}`, {
-      containerSelector: `#${_id}`,
-      innerWrapperSelector: `#${_sidebarInnerId}`,
-      topSpacing: _topSpacing,
-      bottomSpacing: _bottomSpacing
+var StickySidebar$1 = function StickySidebar$1(_ref) {
+  var _ref$bottomSpacing = _ref.bottomSpacing,
+      bottomSpacing = _ref$bottomSpacing === void 0 ? 0 : _ref$bottomSpacing,
+      content = _ref.content,
+      _ref$id = _ref.id,
+      id = _ref$id === void 0 ? 'container' : _ref$id,
+      sidebarContent = _ref.sidebarContent,
+      _ref$sidebarId = _ref.sidebarId,
+      sidebarId = _ref$sidebarId === void 0 ? 'sidebar' : _ref$sidebarId,
+      _ref$sidebarInnerId = _ref.sidebarInnerId,
+      sidebarInnerId = _ref$sidebarInnerId === void 0 ? 'sidebar-inner' : _ref$sidebarInnerId,
+      _ref$topSpacing = _ref.topSpacing,
+      topSpacing = _ref$topSpacing === void 0 ? 0 : _ref$topSpacing;
+  var sidebarImplementation = useRef();
+  useEffect(function () {
+    sidebarImplementation.current = new StickySidebar("#" + sidebarId, {
+      containerSelector: "#" + id,
+      innerWrapperSelector: "#" + sidebarInnerId,
+      topSpacing: topSpacing,
+      bottomSpacing: bottomSpacing
     });
-  }, [_id, _sidebarId, _sidebarInnerId]);
+  }, [id, sidebarId, sidebarInnerId]);
   return createElement("div", {
-    id: _id,
-    className: `sticky-sidebar ${styles.stickySidebar}`
+    id: id,
+    className: "sticky-sidebar " + styles.stickySidebar
   }, createElement("div", {
-    id: _sidebarId,
-    className: `sticky-sidebar__sidebar ${styles.sidebar}`
+    id: sidebarId,
+    className: "sticky-sidebar__sidebar " + styles.sidebar
   }, createElement("div", {
-    id: _sidebarInnerId,
-    className: `sticky-sidebar__sidebar-inner ${styles.sidebarInner}`
+    id: sidebarInnerId,
+    className: "sticky-sidebar__sidebar-inner " + styles.sidebarInner
   }, sidebarContent === null || sidebarContent === void 0 ? void 0 : sidebarContent())), createElement("div", {
     className: 'sticky-sidebar__content'
   }, content === null || content === void 0 ? void 0 : content()));
