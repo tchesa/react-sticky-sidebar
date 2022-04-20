@@ -1,6 +1,6 @@
 var React = require('react');
 
-var styles = {"stickySidebar":"_wEBSf","sidebar":"_a1FEy","sidebarInner":"_3c2CD"};
+var styles = {"stickySidebar":"_styles-module__stickySidebar__wEBSf","sidebar":"_styles-module__sidebar__a1FEy","sidebarInner":"_styles-module__sidebarInner__3c2CD"};
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {

@@ -1,15 +1,15 @@
-._wEBSf {
+._styles-module__stickySidebar__wEBSf {
   display: flex;
   align-items: flex-start;
 }
 
-._a1FEy {
+._styles-module__sidebar__a1FEy {
   will-change: min-height;
   width: 200px;
   flex-shrink: 0;
 }
 
-._3c2CD {
+._styles-module__sidebarInner__3c2CD {
   transform: translate(0, 0); /* For browsers don't support translate3d. */
   transform: translate3d(0, 0, 0);
   will-change: position, transform;
