@@ -21,7 +21,14 @@ const StickySidebar = ({
   sidebarInnerId = 'sidebar-inner',
   topSpacing = 0
 }: Props) => {
-  const sidebarImplementation = React.useRef<StickySidebarImplementation>()
+  const sidebarImplementation = React.useRef<StickySidebarImplementation>(
+    new StickySidebarImplementation(`#${sidebarId}`, {
+      containerSelector: `#${id}`,
+      innerWrapperSelector: `#${sidebarInnerId}`,
+      topSpacing: topSpacing,
+      bottomSpacing: bottomSpacing
+    })
+  )
 
   React.useEffect(() => {
     sidebarImplementation.current = new StickySidebarImplementation(

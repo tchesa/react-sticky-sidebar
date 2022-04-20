@@ -567,7 +567,12 @@ var StickySidebar$1 = function StickySidebar$1(_ref) {
       sidebarInnerId = _ref$sidebarInnerId === void 0 ? 'sidebar-inner' : _ref$sidebarInnerId,
       _ref$topSpacing = _ref.topSpacing,
       topSpacing = _ref$topSpacing === void 0 ? 0 : _ref$topSpacing;
-  var sidebarImplementation = React.useRef();
+  var sidebarImplementation = React.useRef(new StickySidebar("#" + sidebarId, {
+    containerSelector: "#" + id,
+    innerWrapperSelector: "#" + sidebarInnerId,
+    topSpacing: topSpacing,
+    bottomSpacing: bottomSpacing
+  }));
   React.useEffect(function () {
     sidebarImplementation.current = new StickySidebar("#" + sidebarId, {
       containerSelector: "#" + id,
